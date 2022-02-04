@@ -12,7 +12,7 @@ This project aims to benifit C++ developers by providing a ready-to-start enviro
 
 ## How to start
 - build for local machine
-  ```$ ./build_local```
+  ```$ ./build_local.sh```
 - cross build for 32-bit armv7
   _(TBD)_
 
@@ -22,6 +22,6 @@ Software development with C and C++ usually requires 3rd-party libraries, which 
 
 However, playing with 3rd-party libraries is still painful since there're too many choices for the same feature. To evaluate a 3rd-party library, developers should read the documents, sample code and better to test it before introduce into current project -- the evaluation process takes a lot of effort and time.
 
-Furthermore, if multiple platform support (or even cross-compile) is required, the dependency issue increases drastically along with the number of introducesd libraries -- sloving it will be a nightmare.
+Furthermore, if multi-platform support (or cross-compile) is required, the dependency issue increases drastically along with the number of introducesd libraries -- sloving it will be a nightmare.
 
 That's the reason I started this project, and hopefully it will reduce some development overhead for others and we can spend more time on software design and coding.
