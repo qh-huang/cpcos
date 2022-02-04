@@ -10,7 +10,7 @@ set -o errexit
 ABSOLUTE_FILENAME=`readlink -e "$0"`
 PROJECT_ROOT=$(dirname ${ABSOLUTE_FILENAME})
 
-BUILD_DIR=${PROJECT_ROOT}/build/local
+BUILD_DIR=${PROJECT_ROOT}/build
 
 mkdir -p ${BUILD_DIR}
 cd ${BUILD_DIR}

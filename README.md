@@ -8,14 +8,18 @@ This project aims to benifit C++ developers by providing a ready-to-start enviro
 
 ## Requirements
   1. conan
-  2. docker (optional, for cross-compiling only)
+  2. docker (optional, for cross-compile only)
 
-## How to start
+## Quick Start
 - build for local machine
-  ```$ ./build_local.sh```
+  ```$ ./build.sh```
 - cross build for 32-bit armv7
-  _(TBD)_
-
+  1. create docker container for target environment (for 1st time only)
+  ```$ ./create_docker_image.sh```
+  2. enter docker environment
+  ```$ ./run_docker.sh```
+  3. build the project just like local environment
+  ```$ ./build.sh```
 
 ## Introduction
 Software development with C and C++ usually requires 3rd-party libraries, which save developers a lot of time. 
