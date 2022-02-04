@@ -1,0 +1,14 @@
+language: cpp
+
+os:
+- osx
+
+compiler:
+- clang
+
+script:
+./build.sh
+
+branches:
+  only:
+  - main
