@@ -8,18 +8,21 @@ conan_basic_setup()
 
 set(CMAKE_CXX_STANDARD 14)
 
-get_cmake_property(_variableNames VARIABLES)
-list (SORT _variableNames)
-foreach (_variableName ${_variableNames})
-  message(STATUS "${_variableName}=${${_variableName}}")
-endforeach()
+# get_cmake_property(_variableNames VARIABLES)
+# list (SORT _variableNames)
+# foreach (_variableName ${_variableNames})
+#   message(STATUS "${_variableName}=${${_variableName}}")
+# endforeach()
 
 enable_testing()
 
 file(GLOB_RECURSE ALL_HDRS "cpcos/*.h" "cpcos/*.hpp" "cpcos/*.inc" "cpcos/*.ipp")
 file(GLOB_RECURSE ALL_SRCS "cpcos/*.cc" "cpcos/*.cpp")
-file(GLOB_RECURSE ALL_TEST_SRCS "cpcos/*_test.cc" "cpcos/*_test.cpp" tests/*.cc tests/*.cpp)
+file(GLOB_RECURSE ALL_TEST_SRCS "cpcos/*_test.cc" "cpcos/*_test.cpp" "tests/*.cc" "tests/*.cpp")
 file(GLOB_RECURSE ALL_EXECUTABLE_SRCS "cpcos/*_main.cc" "cpcos/*_main.cpp")
+
+# debug only
+# message(STATUS "ALL_SRCS=${ALL_SRCS}")
 
 # remove hidden files and folders that could potentially pollute the build.
 file(GLOB_RECURSE ALL_DOTFILES ".*/*")
@@ -64,6 +67,8 @@ endforeach()
 set_source_files_properties(${ALL_FBS_SRCS} ${ALL_PROTO_HDRS} PROPERTIES GENERATED TRUE)
 list(APPEND ALL_HDRS ${ALL_FBS_HDRS})
 
+include_directories(cpcos)
+
 if(NOT ${ALL_SRCS} STREQUAL "")
   add_library(${PROJECT_NAME} STATIC ${ALL_HDRS} ${ALL_SRCS})
   target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
@@ -89,7 +94,7 @@ foreach(ABS_FIL ${ALL_TEST_SRCS})
   string(REPLACE "/" "." TEST_TARGET_NAME "${DIR}/${FIL_WE}")
 
   add_executable(${TEST_TARGET_NAME} ${ABS_FIL})
-  target_link_libraries("${TEST_TARGET_NAME}" ${CONAN_LIBS_GTEST})
+  target_link_libraries("${TEST_TARGET_NAME}" ${CONAN_LIBS_GTEST} ${PROJECT_NAME})
   add_test(${TEST_TARGET_NAME} ${TEST_TARGET_NAME})
 endforeach()
 

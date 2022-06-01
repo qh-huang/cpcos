@@ -1,5 +1,6 @@
 [requires]
 abseil/20211102.0
+asio/1.22.1
 boost/1.78.0
 ceres-solver/2.0.0
 cryptopp/8.5.0
@@ -20,6 +21,8 @@ openssl/3.0.1
 paho-mqtt-cpp/1.2.0
 poco/1.11.1
 protobuf/3.19.2
+serial/1.2.1
+sml/1.1.5
 sophus/1.0.0
 spdlog/1.9.2
 zeromq/4.3.4

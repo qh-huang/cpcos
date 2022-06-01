@@ -7,10 +7,17 @@ set -o errexit
 #set -o verbose
 
 #### global variables ####
-ABSOLUTE_FILENAME=`readlink -e "$0"`
+if [ "$(uname)" == "Darwin" ]; then
+    ABSOLUTE_FILENAME=`readlink -f "$0"`    
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    ABSOLUTE_FILENAME=`readlink -e "$0"`
+else
+    echo "Unsupported OS"
+    exit 1
+fi
 PROJECT_ROOT=$(dirname ${ABSOLUTE_FILENAME})
 
-BUILD_DIR=${PROJECT_ROOT}/build
+BUILD_DIR=${PROJECT_ROOT}/build_"$(uname -m)"
 
 mkdir -p ${BUILD_DIR}
 cd ${BUILD_DIR}

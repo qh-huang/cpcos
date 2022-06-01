@@ -7,7 +7,7 @@ set -o errexit
 #set -o verbose
 
 #### global variables ####
-ABSOLUTE_FILENAME=`readlink -e "$0"`
+ABSOLUTE_FILENAME=`readlink -f "$0"`
 PROJECT_ROOT=$(dirname ${ABSOLUTE_FILENAME})
 
 docker run  -it \
