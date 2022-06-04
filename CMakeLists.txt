@@ -38,20 +38,18 @@ list(REMOVE_ITEM ALL_SRCS ${ALL_TEST_SRCS})
 
 # flatbuffer schema
 file(GLOB_RECURSE ALL_FBS "*.fbs")
-message("ALL_FBS: ${ALL_FBS}")
+# message("ALL_FBS: ${ALL_FBS}")
 # TODO: find flatc programatically
 set(FLATBUFFERS_FLATC_EXECUTABLE ${CONAN_BIN_DIRS_FLATBUFFERS}/flatc)
-message("FLATBUFFERS_FLATC_EXECUTABLE: ${FLATBUFFERS_FLATC_EXECUTABLE}")
-set(ALL_FBS_SRCS)
+# message("FLATBUFFERS_FLATC_EXECUTABLE: ${FLATBUFFERS_FLATC_EXECUTABLE}")
 set(ALL_FBS_HDRS)
 foreach(ABS_FIL ${ALL_FBS})
+  # message("ABS_FIL: ${ABS_FIL}")
   file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${ABS_FIL})
   get_filename_component(DIR ${REL_FIL} DIRECTORY)
   get_filename_component(FIL_WE ${REL_FIL} NAME_WE)
 
   list(APPEND ALL_FBS_HDRS "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}_generated.h")
-
-  message("ABS_FIL: ${ABS_FIL}")
   
   build_flatbuffers(
     ${ABS_FIL}
@@ -64,12 +62,32 @@ foreach(ABS_FIL ${ALL_FBS})
   )
 endforeach()
 
-set_source_files_properties(${ALL_FBS_SRCS} ${ALL_PROTO_HDRS} PROPERTIES GENERATED TRUE)
-list(APPEND ALL_HDRS ${ALL_FBS_HDRS})
+find_package(Protobuf REQUIRED)
+# message("Protobuf_PROTOC_EXECUTABLE: ${Protobuf_PROTOC_EXECUTABLE}")
+file(GLOB_RECURSE ALL_PROTOS "*.proto")
+# message("ALL_PROTOS: ${ALL_PROTOS}")
+foreach(ABS_FIL ${ALL_PROTOS})
+  # message("ABS_FIL: ${ABS_FIL}")
+  file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${ABS_FIL})
+  get_filename_component(DIR ${REL_FIL} DIRECTORY)
+  get_filename_component(FIL_WE ${REL_FIL} NAME_WE)
 
-include_directories(cpcos)
+  protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${ABS_FIL})
+  # message("PROTO_SRCS: ${PROTO_SRCS}")
+  # message("PROTO_HDRS: ${PROTO_HDRS}")
+  list(APPEND ALL_PROTO_HDRS "${PROTO_HDRS}")
+  list(APPEND ALL_PROTO_SRCS "${PROTO_SRCS}")
+endforeach()
 
-if(NOT ${ALL_SRCS} STREQUAL "")
+set_source_files_properties(${ALL_FBS_SRCS} ${ALL_PROTO_SRCS} PROPERTIES GENERATED TRUE)
+list(APPEND ALL_HDRS ${ALL_FBS_HDRS} ${ALL_PROTO_HDRS})
+list(APPEND ALL_SRCS ${ALL_PROTO_SRCS})
+# message("ALL_HDRS: ${ALL_HDRS}")
+
+# include PROJECT_BINARY_DIR since the .pb.h files are generated in the top level of build directory
+include_directories(cpcos ${PROJECT_BINARY_DIR})
+
+if(NOT "${ALL_SRCS} " STREQUAL " ")
   add_library(${PROJECT_NAME} STATIC ${ALL_HDRS} ${ALL_SRCS})
   target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
 else()

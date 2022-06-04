@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package cpcos;
+
+message Pet {
+  string name = 1;
+  int32 id = 2;
+  optional string species = 3;
+}
