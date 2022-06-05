@@ -11,6 +11,7 @@ using namespace std;
 namespace cpcos {
 
 using serial::Serial;
+using UartException = serial::SerialException;
 
 class Uart
 {

@@ -6,7 +6,7 @@ project(cpcos
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 20)
 
 # get_cmake_property(_variableNames VARIABLES)
 # list (SORT _variableNames)
@@ -18,7 +18,8 @@ enable_testing()
 
 file(GLOB_RECURSE ALL_HDRS "cpcos/*.h" "cpcos/*.hpp" "cpcos/*.inc" "cpcos/*.ipp")
 file(GLOB_RECURSE ALL_SRCS "cpcos/*.cc" "cpcos/*.cpp")
-file(GLOB_RECURSE ALL_TEST_SRCS "cpcos/*_test.cc" "cpcos/*_test.cpp" "tests/*.cc" "tests/*.cpp")
+file(GLOB_RECURSE ALL_TEST_SRCS "cpcos/*_test.cc" "cpcos/*_test.cpp" "tests/*_test.cc" "tests/*_test.cpp")
+file(GLOB_RECURSE ALL_GTEST_SRCS "cpcos/*_gtest.cc" "cpcos/*_gtest.cpp" "tests/*_gtest.cc" "tests/*_gtest.cpp")
 file(GLOB_RECURSE ALL_EXECUTABLE_SRCS "cpcos/*_main.cc" "cpcos/*_main.cpp")
 
 # debug only
@@ -30,11 +31,13 @@ if (ALL_DOTFILES)
   list(REMOVE_ITEM ALL_HDRS ${ALL_DOTFILES})
   list(REMOVE_ITEM ALL_SRCS ${ALL_DOTFILES})
   list(REMOVE_ITEM ALL_TEST_SRCS ${ALL_DOTFILES})
+  list(REMOVE_ITEM ALL_GTEST_SRCS ${ALL_DOTFILES})
   list(REMOVE_ITEM ALL_EXECUTABLE_SRCS ${ALL_DOTFILES})
 endif()
 
 list(REMOVE_ITEM ALL_SRCS ${ALL_EXECUTABLE_SRCS})
 list(REMOVE_ITEM ALL_SRCS ${ALL_TEST_SRCS})
+list(REMOVE_ITEM ALL_SRCS ${ALL_GTEST_SRCS})
 
 # flatbuffer schema
 file(GLOB_RECURSE ALL_FBS "*.fbs")
@@ -100,10 +103,13 @@ endif()
 set(IGNORE_TEST_SRCS)
 list(APPEND IGNORE_TEST_SRCS "${PROJECT_SOURCE_DIR}/tests/boost_log_test.cpp") # Boost.Log is not header-only, not supported yet
 list(REMOVE_ITEM ALL_TEST_SRCS ${IGNORE_TEST_SRCS})
+list(REMOVE_ITEM ALL_GTEST_SRCS ${IGNORE_TEST_SRCS})
 
-message("ALL_TEST_SRCS: ${ALL_TEST_SRCS}")
-
-foreach(ABS_FIL ${ALL_TEST_SRCS})
+# google tests
+include(GoogleTest)
+enable_testing()
+# message("ALL_GTEST_SRCS: ${ALL_TGEST_SRCS}")
+foreach(ABS_FIL ${ALL_GTEST_SRCS})
   file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${ABS_FIL})
   get_filename_component(DIR ${REL_FIL} DIRECTORY)
   get_filename_component(FIL_WE ${REL_FIL} NAME_WE)
@@ -113,6 +119,18 @@ foreach(ABS_FIL ${ALL_TEST_SRCS})
 
   add_executable(${TEST_TARGET_NAME} ${ABS_FIL})
   target_link_libraries("${TEST_TARGET_NAME}" ${CONAN_LIBS_GTEST} ${PROJECT_NAME})
-  add_test(${TEST_TARGET_NAME} ${TEST_TARGET_NAME})
+  gtest_discover_tests(${TEST_TARGET_NAME})
 endforeach()
 
+#normal tests
+foreach(ABS_FIL ${ALL_TEST_SRCS})
+  file(RELATIVE_PATH REL_FIL ${PROJECT_SOURCE_DIR} ${ABS_FIL})
+  get_filename_component(DIR ${REL_FIL} DIRECTORY)
+  get_filename_component(FIL_WE ${REL_FIL} NAME_WE)
+
+  # replace slashes as required for CMP0037.
+  string(REPLACE "/" "." TEST_TARGET_NAME "${DIR}/${FIL_WE}")
+
+  add_executable(${TEST_TARGET_NAME} ${ABS_FIL})
+  target_link_libraries("${TEST_TARGET_NAME}" ${PROJECT_NAME})
+endforeach()

@@ -24,4 +24,5 @@ cd ${BUILD_DIR}
 conan install ${PROJECT_ROOT} --build=missing
 cmake -S ${PROJECT_ROOT} -B ${BUILD_DIR}
 cmake --build ${BUILD_DIR}
+cd ${BUILD_DIR} && ctest
 cd ${PROJECT_ROOT}
