@@ -13,6 +13,9 @@ namespace cpcos {
 using serial::Serial;
 using UartException = serial::SerialException;
 
+/**
+ * @brief Uart class
+ */
 class Uart
 {
 public:

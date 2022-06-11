@@ -7,6 +7,7 @@ cryptopp/8.5.0
 eigen/3.4.0
 expat/2.4.3 # to fix dependencies conflict between poco and dbus
 dbus/1.12.20
+doxygen/1.9.4
 flatbuffers/2.0.0
 fmt/8.1.1
 # cmake cross build is not officially supported (https://github.com/facebook/folly/issues/1560#issuecomment-820705952)
@@ -26,6 +27,7 @@ sml/1.1.5
 sophus/1.0.0
 spdlog/1.9.2
 zeromq/4.3.4
+zlib/1.2.12
 zstd/1.5.2
 
 [generators]

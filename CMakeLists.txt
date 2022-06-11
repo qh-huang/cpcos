@@ -6,6 +6,9 @@ project(cpcos
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
+# Add the cmake folder so the FindSphinx module is found
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
+
 set(CMAKE_CXX_STANDARD 20)
 
 # get_cmake_property(_variableNames VARIABLES)
@@ -92,7 +95,7 @@ include_directories(cpcos ${PROJECT_BINARY_DIR})
 
 if(NOT "${ALL_SRCS} " STREQUAL " ")
   add_library(${PROJECT_NAME} STATIC ${ALL_HDRS} ${ALL_SRCS})
-  target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
+   target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
 else()
   message("no source file found, make it a header-only library")
   add_library(${PROJECT_NAME} INTERFACE ${ALL_HDRS})
@@ -134,3 +137,6 @@ foreach(ABS_FIL ${ALL_TEST_SRCS})
   add_executable(${TEST_TARGET_NAME} ${ABS_FIL})
   target_link_libraries("${TEST_TARGET_NAME}" ${PROJECT_NAME})
 endforeach()
+
+# docs
+add_subdirectory(docs)
