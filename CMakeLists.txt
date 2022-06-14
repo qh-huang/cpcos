@@ -38,16 +38,29 @@ if (ALL_DOTFILES)
   list(REMOVE_ITEM ALL_EXECUTABLE_SRCS ${ALL_DOTFILES})
 endif()
 
-list(REMOVE_ITEM ALL_SRCS ${ALL_EXECUTABLE_SRCS})
-list(REMOVE_ITEM ALL_SRCS ${ALL_TEST_SRCS})
-list(REMOVE_ITEM ALL_SRCS ${ALL_GTEST_SRCS})
+if (NOT "${ALL_EXECUTABLE_SRCS} " STREQUAL " ")
+  list(REMOVE_ITEM ALL_SRCS ${ALL_EXECUTABLE_SRCS})
+endif ()
+
+if (NOT "${ALL_TEST_SRCS} " STREQUAL " ")
+  list(REMOVE_ITEM ALL_SRCS ${ALL_TEST_SRCS})
+endif ()
+
+if (NOT "${ALL_GTEST_SRCS} " STREQUAL " ")
+  list(REMOVE_ITEM ALL_SRCS ${ALL_GTEST_SRCS})
+endif ()
+
+# flatbuffers
+include("${CONAN_LIB_DIRS_FLATBUFFERS}/cmake/BuildFlatBuffers.cmake")
 
 # flatbuffer schema
 file(GLOB_RECURSE ALL_FBS "*.fbs")
 # message("ALL_FBS: ${ALL_FBS}")
+
 # TODO: find flatc programatically
 set(FLATBUFFERS_FLATC_EXECUTABLE ${CONAN_BIN_DIRS_FLATBUFFERS}/flatc)
 # message("FLATBUFFERS_FLATC_EXECUTABLE: ${FLATBUFFERS_FLATC_EXECUTABLE}")
+
 set(ALL_FBS_HDRS)
 foreach(ABS_FIL ${ALL_FBS})
   # message("ABS_FIL: ${ABS_FIL}")
@@ -56,7 +69,7 @@ foreach(ABS_FIL ${ALL_FBS})
   get_filename_component(FIL_WE ${REL_FIL} NAME_WE)
 
   list(APPEND ALL_FBS_HDRS "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}_generated.h")
-  
+
   build_flatbuffers(
     ${ABS_FIL}
     ""
@@ -92,7 +105,7 @@ list(APPEND ALL_SRCS ${ALL_PROTO_SRCS})
 
 # include PROJECT_BINARY_DIR since the .pb.h files are generated in the top level of build directory
 include_directories(cpcos ${PROJECT_BINARY_DIR})
-
+# message("CONAN_LIBS: ${CONAN_LIBS}")
 if(NOT "${ALL_SRCS} " STREQUAL " ")
   add_library(${PROJECT_NAME} STATIC ${ALL_HDRS} ${ALL_SRCS})
    target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
