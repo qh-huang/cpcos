@@ -11,13 +11,15 @@ This project aims to benifit C++ developers by providing a ready-to-start enviro
   2. docker (optional, for cross-compile only)
 
 ## Quick Start
-- build for local machine
+- build for local machine (tested on OSX and Linux only)
   ```$ ./build.sh```
-- cross build for 32-bit armv7
+- cross build for {i386, arm32v7} linux
   1. create docker container for target environment (for 1st time only)
-  ```$ ./create_docker_image.sh```
+  ```$ ./create_docker_image_arm32v7.sh  # arm (ex. rpi)```
+  ```$ ./create_docker_image_i386.sh  # i386 ```
   2. enter docker environment
-  ```$ ./run_docker.sh```
+  ```$ ./run_docker_arm32v7.sh  # arm```
+  ```$ ./run_docker_i386.sh  # i386```
   3. build the project just like local environment
   ```$ ./build.sh```
 

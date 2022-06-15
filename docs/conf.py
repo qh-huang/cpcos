@@ -57,3 +57,6 @@ html_static_path = ['_static']
 
 # Breathe Configuration
 breathe_default_project = "cpcos"
+
+# fix "contents.rst not found" error
+master_doc = 'index'

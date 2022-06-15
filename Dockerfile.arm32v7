@@ -79,13 +79,19 @@ RUN wget --no-check-certificate --quiet -O /tmp/pyenv-installer https://github.c
     && update-alternatives --install /usr/bin/pip pip /opt/pyenv/shims/pip 100 \
     && update-alternatives --install /usr/bin/pip3 pip3 /opt/pyenv/shims/pip3 100
 
+# test only, should merge to apt-get before commit
+RUN apt-get update && apt-get -qq install -y --no-install-recommends --no-install-suggests \
+    python3-sphinx \
+    && rm -rf /var/lib/apt/lists/*
+
 # guard avoid running build script when conanfile remains the same
 ARG CONANPROFILE_CRC32
 COPY conanprofile_arm32v7 /root/.conan/profiles/default
 
 # guard avoid running build script when conanfile remains the same
 ARG CONANFILE_CRC32
-COPY conanfile.txt /tmp/conanfile.txt
+ARG CONANFILE
+COPY ${CONANFILE} /tmp/conanfile.txt
 RUN cd /tmp \
     && conan install . --build=missing \
     && rm -rf ./conanfile.txt

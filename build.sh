@@ -40,5 +40,7 @@ cd ${BUILD_DIR}
 conan install ${CONANFILE} --build=missing
 cmake -S ${PROJECT_ROOT} -B ${BUILD_DIR}
 cmake --build ${BUILD_DIR}
-cd ${BUILD_DIR} && ctest
+cd ${BUILD_DIR} 
+ctest 
+ctest --rerun-failed --output-on-failure
 cd ${PROJECT_ROOT}

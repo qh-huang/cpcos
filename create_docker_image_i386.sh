@@ -7,12 +7,11 @@ set -o errexit
 #set -o verbose
 
 #### global variables ####
-ABSOLUTE_FILENAME=`readlink -e "$0"`
+ABSOLUTE_FILENAME=`readlink -f "$0"`
 PROEJCT_ROOT=$(dirname ${ABSOLUTE_FILENAME})
 
-CONANFILE_CRC32=$(crc32 ${PROEJCT_ROOT}/conanfile_armv7l.txt)
-CONANPROFILE_CRC32=$(crc32 ${PROEJCT_ROOT}/conanprofile_armv7l)
-
+CONANFILE_CRC32=$(crc32 ${PROEJCT_ROOT}/conanfile_linux64.txt)
+CONANPROFILE_CRC32=$(crc32 ${PROEJCT_ROOT}/conanprofile_i386)
 
 echo "crc32 of conanfile: ${CONANFILE_CRC32}"
 echo "crc32 of conanprofile: ${CONANPROFILE_CRC32}"
@@ -20,6 +19,7 @@ echo "crc32 of conanprofile: ${CONANPROFILE_CRC32}"
 docker build \
     --build-arg CONANFILE_CRC32=${CONANFILE_CRC32} \
     --build-arg CONANPROFILE_CRC32=${CONANPROFILE_CRC32} \
-    -t cpcos_armv7l \
-    -f Dockerfile \
+    --build-arg CONANFILE=conanfile_linux64.txt \
+    -t cpcos_i386 \
+    -f Dockerfile.i386 \
     .
