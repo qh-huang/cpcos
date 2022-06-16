@@ -9,13 +9,17 @@ conan_basic_setup()
 # Add the cmake folder so the FindSphinx module is found
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
-set(CMAKE_CXX_STANDARD 20)
-
 # get_cmake_property(_variableNames VARIABLES)
 # list (SORT _variableNames)
 # foreach (_variableName ${_variableNames})
 #   message(STATUS "${_variableName}=${${_variableName}}")
 # endforeach()
+
+set(CMAKE_CXX_STANDARD 20)
+
+# Boost 1.78 requires the following workaround. See: https://github.com/boostorg/process/issues/235
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -ggdb")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-narrowing")
 
 enable_testing()
 
