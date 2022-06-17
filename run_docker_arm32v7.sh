@@ -14,6 +14,5 @@ docker run  -it \
             --platform linux/arm \
             -v${PROJECT_ROOT}:/root/cpcos \
             --workdir="/root/cpcos" \
-            --rm \
             cpcos_arm32v7 \
             /bin/bash

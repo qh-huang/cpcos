@@ -35,7 +35,7 @@ zstd/1.5.2
 cmake
 
 [options]
-boost:header_only=True
+boost:header_only=False
 boost:without_test=True
 flatbuffers:flatc=True
 flatbuffers:options_from_context=False

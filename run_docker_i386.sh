@@ -13,6 +13,5 @@ PROJECT_ROOT=$(dirname ${ABSOLUTE_FILENAME})
 docker run  -it \
             -v${PROJECT_ROOT}:/root/cpcos \
             --workdir="/root/cpcos" \
-            --rm \
             cpcos_i386 \
             /bin/bash
