@@ -2,7 +2,7 @@
 
 #include "json_utils.hpp"
 
-TEST(JsonGtest, JsonGtest)
+TEST(JsonGTest, JsonGTest)
 {
   cpcos::Person p = {"Ned Flanders", "744 Evergreen Terrace", 60};
 
