@@ -1,4 +1,4 @@
-# cpcos 
+# cpcos
 CPCOS - **C**ross-**P**latform **C**++ **O**pen-source **S**tarter Project
 
 This project aims to benifit C++ developers by providing a ready-to-start environment which
@@ -22,9 +22,13 @@ This project aims to benifit C++ developers by providing a ready-to-start enviro
   ```$ ./run_docker_i386.sh  # i386```
   3. build the project just like local environment
   ```$ ./build.sh```
+- (optional) apply [pre-commit](https://pre-commit.com/)
+  - install ```pre-commit``` (see [instructions](https://pre-commit.com/#install))
+  - setup the project (only required once)
+  ```$ pre-commit install```
 
 ## Introduction
-Software development with C and C++ usually requires 3rd-party libraries, which save developers a lot of time. 
+Software development with C and C++ usually requires 3rd-party libraries, which save developers a lot of time.
 
 However, playing with 3rd-party libraries is still painful since there're too many choices for the same feature. To evaluate a 3rd-party library, developers should read the documents, sample code and better to test it before introduce into current project -- the evaluation process takes a lot of effort and time.
 

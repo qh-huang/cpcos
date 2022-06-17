@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 
 LABEL maintainer="qiao qiao.helloworld@gmail.com"
 
-ENV LANG=en_US.UTF-8 \ 
+ENV LANG=en_US.UTF-8 \
     LANGUAGE=en_US:en \
     LC_ALL=en_US.UTF-8 \
     CMAKE_VERSION_MAJOR_MINOR=3.22 \
@@ -13,11 +13,11 @@ ENV LANG=en_US.UTF-8 \
     DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
-    && apt-get install -y sudo openssl apt-utils locales \ 
+    && apt-get install -y sudo openssl apt-utils locales \
     && rm -rf /var/lib/apt/lists/*
 
-RUN dpkg-reconfigure locales --frontend noninteractive \ 
-    && locale-gen "en_US.UTF-8" \ 
+RUN dpkg-reconfigure locales --frontend noninteractive \
+    && locale-gen "en_US.UTF-8" \
     && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
 RUN apt-get update && apt-get -qq install -y --no-install-recommends --no-install-suggests \
@@ -45,7 +45,7 @@ RUN apt-get update && apt-get -qq install -y --no-install-recommends --no-instal
     ninja-build \
     pkg-config \
     subversion \
-    sudo \  
+    sudo \
     wget \
     xz-utils \
     zlib1g-dev \
