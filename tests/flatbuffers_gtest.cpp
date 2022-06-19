@@ -84,8 +84,7 @@ TEST(FlatbuffersTest, Monster)
   std::string expected_weapon_names[] = {"Sword", "Axe"};
   short expected_weapon_damages[] = {3, 5};
   auto weps = monster->weapons();
-  for (unsigned int i = 0; i < weps->size(); i++)
-  {
+  for (unsigned int i = 0; i < weps->size(); i++) {
     EXPECT_EQ(weps->Get(i)->name()->str(), expected_weapon_names[i]);
     EXPECT_EQ(weps->Get(i)->damage(), expected_weapon_damages[i]);
   }

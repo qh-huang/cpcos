@@ -18,7 +18,7 @@ using UartException = serial::SerialException;
  */
 class Uart
 {
-public:
+ public:
   Uart() : serial_(nullptr) {}
   Uart(const std::string& port, uint32_t baudrate, uint32_t timeout_ms = 500)
   {
@@ -30,8 +30,7 @@ public:
 
   virtual ~Uart()
   {
-    if (serial_)
-    {
+    if (serial_) {
       lock_guard<recursive_mutex> lock_r(mtx_read_);
       lock_guard<recursive_mutex> lock_w(mtx_write_);
       serial_->close();
@@ -43,24 +42,20 @@ public:
   {
     lock_guard<recursive_mutex> lock_r(mtx_read_);
     lock_guard<recursive_mutex> lock_w(mtx_write_);
-    if (serial_ && serial_->isOpen())
-    {
+    if (serial_ && serial_->isOpen()) {
       serial_->close();
       serial_.reset();
     }
     serial_ = make_shared<Serial>(port, baudrate);
-    if (!serial_)
-    {
+    if (!serial_) {
       cerr << "failed to open serial: serial_ is null" << endl;
       return false;
     }
-    if (!serial_->isOpen())
-    {
+    if (!serial_->isOpen()) {
       cerr << "failed to open serial: serial_ is not open" << endl;
       return false;
     }
-    if (!SetTimeout(timeout_ms))
-    {
+    if (!SetTimeout(timeout_ms)) {
       cerr << "failed to set timeout" << endl;
       return false;
     }
@@ -71,8 +66,7 @@ public:
   {
     lock_guard<recursive_mutex> lock_r(mtx_read_);
     lock_guard<recursive_mutex> lock_w(mtx_write_);
-    if (!serial_ || !serial_->isOpen())
-    {
+    if (!serial_ || !serial_->isOpen()) {
       cerr << "failed to set timeout: serial_ is null or not open" << endl;
       return false;
     }
@@ -88,8 +82,7 @@ public:
   {
     lock_guard<recursive_mutex> lock_r(mtx_read_);
     lock_guard<recursive_mutex> lock_w(mtx_write_);
-    if (!serial_)
-    {
+    if (!serial_) {
       cerr << "failed to check serial status: serial_ is null" << endl;
       return false;
     }
@@ -99,8 +92,7 @@ public:
   uint32_t Read(uint8_t* buf, uint32_t size)
   {
     lock_guard<recursive_mutex> lock_r(mtx_read_);
-    if (!serial_ || !serial_->isOpen())
-    {
+    if (!serial_ || !serial_->isOpen()) {
       cerr << "failed to read: serial_ is null or not open" << endl;
       return 0;
     }
@@ -110,8 +102,7 @@ public:
   string ReadStr()
   {
     lock_guard<recursive_mutex> lock_r(mtx_read_);
-    if (!serial_ || !serial_->isOpen())
-    {
+    if (!serial_ || !serial_->isOpen()) {
       cerr << "failed to read: serial_ is null or not open" << endl;
       return "";
     }
@@ -121,15 +112,14 @@ public:
   uint32_t Write(const uint8_t* buf, uint32_t size)
   {
     lock_guard<recursive_mutex> lock_w(mtx_write_);
-    if (!serial_ || !serial_->isOpen())
-    {
+    if (!serial_ || !serial_->isOpen()) {
       cerr << "failed to write: serial_ is null or not open" << endl;
       return 0;
     }
     return serial_->write(buf, size);
   }
 
-private:
+ private:
   mutable recursive_mutex mtx_read_;
   mutable recursive_mutex mtx_write_;
 

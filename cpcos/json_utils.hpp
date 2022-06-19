@@ -7,7 +7,8 @@ using json = nlohmann::json;
 
 namespace cpcos {
 
-struct Person {
+struct Person
+{
   string name;
   string address;
   uint32_t age;

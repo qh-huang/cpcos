@@ -1,23 +1,13 @@
-# ---
-# We'll use defaults from the Google style, but with 4 columns indentation.
-BasedOnStyle: Google
-IndentWidth: 2
 ---
-Language: Cpp
 BasedOnStyle: Google
-IndentWidth: 2
-IndentCaseLabels: false
-AccessModifierOffset: -2
-AllowShortIfStatementsOnASingleLine: false
+Language: Cpp
 UseTab: Never
-DerivePointerAlignment: false
-PointerAlignment: Left
 ColumnLimit: 0
 BreakBeforeBraces: Custom
 BraceWrapping:
-  AfterNamespace: false
-  AfterFunction: true
-  AfterCaseLabel: true
-  AfterClass: true
-  AfterControlStatement: true
-  AfterEnum: true
+    AfterCaseLabel: false
+    AfterClass: true
+    AfterEnum: true
+    AfterFunction: true
+    AfterStruct: true
+    SplitEmptyFunction: false
