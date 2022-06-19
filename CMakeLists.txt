@@ -74,6 +74,9 @@ foreach(ABS_FIL ${ALL_FBS})
 
   list(APPEND ALL_FBS_HDRS "${PROJECT_BINARY_DIR}/${DIR}/${FIL_WE}_generated.h")
 
+  # [TODO]
+  # To specify more detailed configuration, it's better to use add_custom_command()
+  # to generate the .h file instead of calling build_flatbuffers()
   build_flatbuffers(
     ${ABS_FIL}
     ""

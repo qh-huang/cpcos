@@ -65,7 +65,9 @@ TEST(FlatbuffersTest, Monster)
 
   // Get access to the root:
   auto monster = GetMonster(data);
-  delete[] data;
+
+  // NOTE: should NEVER delete the data pointer since monster will access the memory directly
+  // delete[] data;
 
   // Get and test some scalar types from the FlatBuffer.
   EXPECT_EQ(monster->hp(), 80);
@@ -94,4 +96,7 @@ TEST(FlatbuffersTest, Monster)
   auto equipped = static_cast<const Weapon*>(monster->equipped());
   EXPECT_EQ(equipped->name()->str(), "Axe");
   EXPECT_EQ(equipped->damage(), 5);
+
+  // NOTE: should always delete buffer AFTER monster is not needed anymore
+  delete[] data;
 }
