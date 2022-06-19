@@ -40,6 +40,7 @@ boost:without_test=True
 flatbuffers:flatc=True
 flatbuffers:options_from_context=False
 opencv:with_ffmpeg=False
+opencv:with_quirc=False
 opencv:dnn=False
 poco:enable_data_mysql=False
 poco:enable_data_postgresql=False
